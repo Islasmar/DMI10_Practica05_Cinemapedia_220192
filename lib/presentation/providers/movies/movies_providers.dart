@@ -7,20 +7,39 @@ typedef MovieCallback = Future<List<Movie>> Function({int page});
 
 // 🔹 2. Provider principal
 final nowPlayingMoviesProvider = NotifierProvider<MoviesNotifier, List<Movie>>(
-  MoviesNotifier.new,
+  () => MoviesNotifier((ref)=> ref.watch(movieRepositoryProvider).getNowPlaying),
 );
+
+final popularMoviesProvider = NotifierProvider<MoviesNotifier, List<Movie>>(
+  () => MoviesNotifier((ref)=> ref.watch(movieRepositoryProvider).getPopular),
+);
+
+final upcomingMoviesProvider = NotifierProvider<MoviesNotifier, List<Movie>>(
+  () => MoviesNotifier((ref)=> ref.watch(movieRepositoryProvider).getUpComing),
+);
+final topratedMoviesProvider = NotifierProvider<MoviesNotifier, List<Movie>>(
+  () => MoviesNotifier((ref)=> ref.watch(movieRepositoryProvider).getTopRated),
+);
+
+final mexicanMoviesProvider = NotifierProvider<MoviesNotifier, List<Movie>>(
+  () => MoviesNotifier((ref)=> ref.watch(movieRepositoryProvider).getMexicanMovies),
+);
+
+
 
 // 🔹 3. El Notifier que maneja el estado
 class MoviesNotifier extends Notifier<List<Movie>> {
-  int currentPage = 0;
-  late final MovieCallback fetchMoreMovies;
-  bool isLoading = false;
+final MovieCallback Function(Ref ref) _callbackBuilder;
+late final MovieCallback fetchMoreMovies;
+MoviesNotifier(this._callbackBuilder);
+int currentPage = 0;
+bool isLoading = false;
+
 
   @override
   List<Movie> build() {
     // Obtenemos el repositorio desde el ref
-    final repository = ref.watch(movieRepositoryProvider);
-    fetchMoreMovies = repository.getNowPlaying;
+    fetchMoreMovies = _callbackBuilder(ref);
     return [];
   }
 

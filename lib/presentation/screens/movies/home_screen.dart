@@ -34,14 +34,24 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   @override
   void initState() {
     super.initState();
-    ref
-        .read(nowPlayingMoviesProvider.notifier)
-        .loadNextPage(); // Carga la primera página de películas al iniciar la pantalla
+
+    ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(); // Carga la primera página de películas al iniciar la pantalla
+    ref.read(popularMoviesProvider.notifier).loadNextPage(); // Carga la primera página de películas al iniciar la pantalla
+    ref.read(topratedMoviesProvider.notifier).loadNextPage(); // Carga la primera página de películas al iniciar la pantalla
+    ref.read(upcomingMoviesProvider.notifier).loadNextPage(); // Carga la primera página de películas al iniciar la pantalla
+    ref.read(mexicanMoviesProvider.notifier).loadNextPage(); // Carga la primera página de películas al iniciar la pantalla
+
   }
 
   @override
   Widget build(BuildContext context) {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
+    final slideShowMovies = ref.watch(moviesSlideShowProvider);
+    final popular = ref.watch(popularMoviesProvider);
+    final toprated= ref.watch(topratedMoviesProvider);
+    final upcomingMovies = ref.watch(upcomingMoviesProvider);
+    final mexicanMovies = ref.watch(mexicanMoviesProvider);
+
 
     return SingleChildScrollView(
       child: Column(
@@ -60,35 +70,35 @@ class _HomeViewState extends ConsumerState<_HomeView> {
           ),
 
           MovieHorizontalListview(
-            movies: nowPlayingMovies,
+            movies: upcomingMovies,
             title: 'Próximamente',
             subTitle: 'Noviembre',
             loadNextPage: () =>
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                ref.read(upcomingMoviesProvider.notifier).loadNextPage(),
           ),
 
           MovieHorizontalListview(
-            movies: nowPlayingMovies,
+            movies: popular,
             title: 'Populares',
             subTitle: 'Miércoles, 22 de Octubre',
             loadNextPage: () =>
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                ref.read(popularMoviesProvider.notifier).loadNextPage(),
           ),
 
           MovieHorizontalListview(
-            movies: nowPlayingMovies,
+            movies: toprated,
             title: 'Mejor Calificadas',
             subTitle: 'Miércoles, 22 de Octubre',
             loadNextPage: () =>
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                ref.read(topratedMoviesProvider.notifier).loadNextPage(),
           ),
 
           MovieHorizontalListview(
-            movies: nowPlayingMovies,
+            movies: mexicanMovies,
             title: 'Picardia Mexicana',
             subTitle: 'Miércoles, 22 de Octubre',
             loadNextPage: () =>
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                ref.read(mexicanMoviesProvider.notifier).loadNextPage(),
           ),
 
           const SizedBox(height: 10,)

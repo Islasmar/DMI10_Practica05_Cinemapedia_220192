@@ -85,12 +85,13 @@ class _Slide extends StatelessWidget {
         children: [
           SizedBox(
             width: 150,
-            height: 200,
+            height: 220,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Image.network(
                 movie.posterPath,
                 width: 150,
+                height: 220,
                 fit: BoxFit.cover,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress!= null){
